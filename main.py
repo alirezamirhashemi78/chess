@@ -11,14 +11,25 @@ class User:
     def __init__(self, username, password) -> None:
         self.username = username
         self.password = password
-
     
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, User):
             return self.username == other.username
         elif isinstance(other, str):
             return self.username == other
 
+
+    def print_command_list():
+        commands = """
+        register [username] [password]
+        login [username] [password]
+        remove [username] [password]
+        list_users
+        help
+        exit
+        """
+        print(commands)
 
     @staticmethod
     def is_valid(string: str):
@@ -47,6 +58,16 @@ class User:
         u = User(username, password)
         User.users.append(u)
         print("register successful")
+    
+    
+    @staticmethod
+    def remove_user(username, password):
+        if User.is_valid(username) == False:
+            print("username format is invalid")
+            return
+        if User.is_valid(password) == False:
+            print("password format is invalid")
+            return
 
         
 class Chess:
@@ -137,6 +158,22 @@ class King(Piece):
         pass
 
 
-User.add_user("slalsadlas", "123")
-User.add_user("slalsadlas", "123sdag")
-User.add_user("nنرسب", "123")
+while True:
+    user_inp = input("").strip().split()
+
+    if user_inp == "exit":
+        break
+
+    if user_inp[0] == "help":
+        User.print_command_list()
+
+    if len(user_inp) != 3:
+        print("invalid command")
+        continue
+
+    if user_inp[0] == "register":
+        User.add_user(user_inp[1], user_inp[2])
+    else:
+        print(f"invalid command <{user_inp[0]}>")
+
+
