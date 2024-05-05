@@ -8,6 +8,7 @@ class User:
     color: bool = False
     users: list = []
     
+    
     def __init__(self, username, password) -> None:
         self.username = username
         self.password = password
@@ -21,7 +22,6 @@ class User:
         # elif isinstance(other, )
     
 
-
     def print_command_list():
         commands = """
         register [username] [password]
@@ -33,6 +33,14 @@ class User:
         """
         for i, command in enumerate(commands.strip().split("\n")):
             print(f"{i+1}. {command.strip()}")
+
+
+    @staticmethod
+    def list_users():
+        sorted_users = sorted(User.users, key=lambda x:x.username.lower())
+        for user in sorted_users:
+            print(f"{user.username} {user.password}")
+            
 
     @staticmethod
     def is_valid(string: str):
@@ -46,8 +54,7 @@ class User:
 
 
     @staticmethod
-    def add_user(username, password):
-
+    def check_validations(username, password):
         if User.is_valid(username) == False:
             print("username format is invalid")
             return
@@ -55,6 +62,12 @@ class User:
         if User.is_valid(password) == False:
             print("password format is invalid")
             return
+
+
+    @staticmethod
+    def add_user(username, password):
+
+        User.check_validations(username, password)
 
         if User.is_username_exist(username):
             print("a user exists with this username")
@@ -64,15 +77,16 @@ class User:
         User.users.append(u)
         print("register successful")
     
+
+    @staticmethod
+    def login(username, password):
+        pass
     
+
     @staticmethod
     def remove_user(username, password):
-        if User.is_valid(username) == False:
-            print("username format is invalid")
-            return
-        if User.is_valid(password) == False:
-            print("password format is invalid")
-            return
+
+        User.check_validations(username, password)
         
         u = User(username, password)
         if u in User.users:
@@ -174,6 +188,7 @@ class King(Piece):
 
 
 while True:
+
     user_inp = input("").strip().split()
 
     if user_inp[0] not in ["register", "login", "remove", "list_users", "help", "exit"]:
@@ -182,10 +197,17 @@ while True:
     if user_inp[0] == "register":
         User.add_user(user_inp[1], user_inp[2])
 
+    if user_inp[0] == "login":
+        User.add_user(user_inp[1], user_inp[2])
+
     if user_inp[0] == "remove":
         User.remove_user(user_inp[1], user_inp[2])
+    
+    if user_inp[0] == "list_users":
+        User.list_users()
 
     if user_inp[0] == "exit":
+        print("program ended")
         break
 
     if user_inp[0] == "help":
