@@ -1,5 +1,0 @@
-register alimir 2343
-register hesamiks 3454
-login alimir 2343
-new_game hesamiks 10
-select 1,1
