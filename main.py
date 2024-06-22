@@ -86,6 +86,7 @@ class Pawn(Piece):
                         self.x = x
                         self.y = y
                         print('moved')
+                        return True
                     else:
                         print("cannot move to the spot")
                         return
@@ -121,6 +122,7 @@ class Pawn(Piece):
                         self.x = x
                         self.y = y
                         print('moved')
+                        return True
                     else:
                         print("cannot move to the spot")
                         return
@@ -176,6 +178,7 @@ class Pawn(Piece):
                         self.x = x
                         self.y = y
                         print('moved')
+                        return True
                     else:
                         print("cannot move to the spot")
                         return
@@ -211,6 +214,7 @@ class Pawn(Piece):
                         self.x = x
                         self.y = y
                         print('moved')
+                        return True
                     else:
                         print("cannot move to the spot")
                         return
@@ -263,8 +267,9 @@ class Rook(Piece):
                     board[start_r][start_c] = None
                     x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
                     self.x = x
-                    self.y =y
+                    self.y = y
                     print('moved')
+                    return True
                 else:
                     if (peice := board[start_r][start_c]).color == destination.color:
                         print('cannot move to the spot')
@@ -294,6 +299,7 @@ class Rook(Piece):
                     self.x = x
                     self.y = y
                     print('moved')
+                    return True
                 else:
                     if (peice := board[start_r][start_c]).color == destination.color:
                         print('cannot move to the spot')
@@ -359,6 +365,7 @@ class Bishop(Piece):
                 self.x = x
                 self.y = y
                 print('moved')
+                return True
             else:
                 if (peice := board[start_r][start_c]).color == destination.color:
                     print('cannot move to the spot')
@@ -404,7 +411,7 @@ class Queen(Piece):
                 self.x = x
                 self.y = y
                 print('moved')
-                return
+                return True
             else:
                 if (peice := board[start_r][start_c]).color == destination.color:
                     print('cannot move to the spot')
@@ -436,7 +443,7 @@ class Queen(Piece):
                 self.x = x
                 self.y = y
                 print('moved')
-                return
+                return True
             else:
                 if (peice := board[start_r][start_c]).color == destination.color:
                     print('cannot move to the spot')
@@ -479,6 +486,7 @@ class Queen(Piece):
             self.x = x
             self.y = y
             print('moved')
+            return True
         else:
             if (peice := board[start_r][start_c]).color == destination.color:
                 print('cannot move to the spot')
@@ -514,6 +522,7 @@ class King(Piece):
             self.x = x
             self.y = y
             print('moved')
+            return True
         else:
             if (peice := board[start_r][start_c]).color == destination.color:
                 print('cannot move to the spot')
@@ -550,6 +559,7 @@ class Knight(Piece):
             self.x = x
             self.y = y
             print('moved')
+            return True
         else:
             if (peice := board[start_r][start_c]).color == destination.color:
                 print('cannot move to the spot')
@@ -722,6 +732,7 @@ class Chess:
     black_user: User = None
     white_turn: bool = True
     black_turn: bool = False
+    moved = False
     selected_piece: object = None
     limit: int = None
     board: list = []
@@ -897,8 +908,8 @@ class Chess:
         piece = None
         x, y = CoordinateUtility.cartesian_to_index(x, y)
         x, y = int(x), int(y)
-        if (0 <= x <= 7 and 0 <= y <= 7):
 
+        if (0 <= x <= 7 and 0 <= y <= 7):
             piece = chess.board[x][y]
         else:
             print("wrong coordination")
@@ -1029,10 +1040,22 @@ while True:
         
         if user_inp[0] == "move":
             # x, y = CoordinateUtility.cartesian_to_index(int(user_inp[1]), int(user_inp[2]))
+            if chess.moved:
+                print("already moved")
+            else:
+                moves = user_inp[1].split(",")
+                x = int(moves[0])
+                y = int(moves[1])
+                if not (0 <= x <= 7 and 0 <= y <= 7):
+                    print("wrong coordination")
+                elif chess.selected_piece is None:
+                    print("do not have any selected piece")
+                else:
+                    x, y = user_inp[1].split(",")
+                    print("X: ", x, y)
+                    chess.selected_piece.move(int(x), int(y), chess.board)
 
-            x, y = user_inp[1].split(",")
-            print("X: ", x, y)
-            chess.selected_piece.move(int(x), int(y), chess.board)
+            chess.print_board()
             
         if user_inp[0] == "deselect":
             chess.deselect()
