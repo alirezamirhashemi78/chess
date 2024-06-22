@@ -1,0 +1,16 @@
+register alimir 2343
+register malekz 3454
+login malekz 3454
+new_game alimir 12
+deselect
+select -1,1
+select -1,-10
+select 1,-5
+select 9,9
+select 5,9
+deselect
+select 9,5
+select 3,4
+select 1,2
+
+exit

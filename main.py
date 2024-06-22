@@ -45,17 +45,194 @@ class Pawn(Piece):
     def __init__(self, color, x, y):
         super().__init__("P", color, x, y)
 
+
     def move(self, x, y, board):
-        pawn_line = 2 if self.color == "w" else 7
+        # pawn_line = 2 if self.color == "w" else 7
         start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
         end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
+        pawn = board[start_r][start_c]
+        can_destroy_left = False
+        can_destroy_right = False
+        can_move = False
+        if pawn.color == "w":
+            # checks pawn going forward
+            if y <= self.y:
+                print("cannot move to the spot")
+                return
+            if not -1 <= x - self.x <= 1:
+                print("cannot move to the spot")
+                return
+            # checks if white pawn can destroy right
+            if self.x < 8:
+                if (right_side := board[start_r - 1][start_c + 1]) is not None:
+                    if right_side.color != pawn.color:
+                        can_destroy_right = True
+            # checks if white pawn can destroy left
+            if self.x > 1:
+                if (left_side := board[start_r - 1][start_c - 1]) is not None:
+                    if left_side.color != pawn.color:
+                        can_destroy_left = True
 
-        if self.x == x and self.y == y:
-            print("cannot move to the spot")
-            return
-        print(pawn_line)
-        print("pawn")
-        pass
+            # if pawn didnt move
+            if self.y == 2:
+                if x == self.x:
+                    if board[end_r][end_c] is not None:
+                        print("cannot move to the spot")
+                        return
+                    elif y - self.y <= 2:
+                        board[end_r][end_c] = board[start_r][start_c]
+                        board[start_r][start_c] = None
+                        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                        self.x = x
+                        self.y = y
+                        print('moved')
+                    else:
+                        print("cannot move to the spot")
+                        return
+                elif can_destroy_right and x - self.x == 1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                elif can_destroy_left and x - self.x == -1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                else:
+                    print("cannot move to the spot")
+                    return
+            # if pawn moved
+            else:
+                if x == self.x:
+                    if board[end_r][end_c] is not None:
+                        print("cannot move to the spot")
+                        return
+                    elif y - self.y == 1:
+                        board[end_r][end_c] = board[start_r][start_c]
+                        board[start_r][start_c] = None
+                        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                        self.x = x
+                        self.y = y
+                        print('moved')
+                    else:
+                        print("cannot move to the spot")
+                        return
+                elif can_destroy_right and x - self.x == 1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                elif can_destroy_left and x - self.x == -1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                else:
+                    print("cannot move to the spot")
+                    return
+
+        if pawn.color == "b":
+            # checks pawn going forward
+            if y >= self.y:
+                print("cannot move to the spot")
+                return
+            if not -1 <= x - self.x <= 1:
+                print("cannot move to the spot")
+                return
+            # checks if white pawn can destroy right
+            if self.x < 8:
+                if (right_side := board[start_r + 1][start_c + 1]) is not None:
+                    if right_side.color != pawn.color:
+                        can_destroy_right = True
+            # checks if white pawn can destroy left
+            if self.x > 1:
+                if (left_side := board[start_r + 1][start_c - 1]) is not None:
+                    if left_side.color != pawn.color:
+                        can_destroy_left = True
+
+            # if pawn didnt move
+            if self.y == 7:
+                if x == self.x:
+                    if board[end_r][end_c] is not None:
+                        print("cannot move to the spot")
+                        return
+                    elif self.y - y <= 2:
+                        board[end_r][end_c] = board[start_r][start_c]
+                        board[start_r][start_c] = None
+                        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                        self.x = x
+                        self.y = y
+                        print('moved')
+                    else:
+                        print("cannot move to the spot")
+                        return
+                elif can_destroy_right and x - self.x == 1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                elif can_destroy_left and x - self.x == -1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                else:
+                    print("cannot move to the spot")
+                    return
+            # if pawn moved
+            else:
+                if x == self.x:
+                    if board[end_r][end_c] is not None:
+                        print("cannot move to the spot")
+                        return
+                    elif self.y - y == 1:
+                        board[end_r][end_c] = board[start_r][start_c]
+                        board[start_r][start_c] = None
+                        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                        self.x = x
+                        self.y = y
+                        print('moved')
+                    else:
+                        print("cannot move to the spot")
+                        return
+                elif can_destroy_right and x - self.x == 1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                elif can_destroy_left and x - self.x == -1:
+                    board[end_r][end_c] = board[start_r][start_c]
+                    board[start_r][start_c] = None
+                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+                    self.x = x
+                    self.y = y
+                    print('rival piece destroyed')
+                    return
+                else:
+                    print("cannot move to the spot")
+                    return
 
 
 class Rook(Piece):
@@ -415,6 +592,10 @@ class User:
             return self.username == other
         # elif isinstance(other, )
         
+
+    def print_board(self):
+        print(*["|".join([str(cell) if cell is not None else "  " for cell in row]) for row in self.board], sep="|\n",
+              end="|\n")
 
     @staticmethod
     def list_users():
@@ -858,6 +1039,9 @@ while True:
 
         if user_inp[0] == "forfeit":
             User.forfeit(chess)
+        
+        if user_inp[0] == "show_board" and len(user_inp) == 1:
+            chess.print_board()
         
     
 
