@@ -16,6 +16,6 @@ move 7,5
 next_turn
 select 3,5
 move 3,6
-
+next_turn
 
 exit

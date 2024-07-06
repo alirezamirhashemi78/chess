@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABC
+from dataclasses import replace
 import re
 import sys
 import random
@@ -464,34 +465,41 @@ class King(Piece):
     def __init__(self, color, x, y):
         super().__init__("K", color, x, y)
 
+
+    def replace_piece(self, board, x, y):
+        start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
+        end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
+        board[end_r][end_c] = board[start_r][start_c]
+        board[start_r][start_c] = None
+        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+        self.x = x
+        self.y = y
+
+
     def move(self, x, y, board):
+        start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
+        end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
+        destination = board[end_r][end_c]
+
         if x == self.x and y == self.y:
             print('cannot move to the spot')
             return
+
         if 1 < abs(x-self.x) or 1 < abs(y-self.y):
             print('cannot move to the spot')
             return
-            
-        start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
-        end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
-        if (destination := board[end_r][end_c]) is None:
-            board[end_r][end_c] = board[start_r][start_c]
-            board[start_r][start_c] = None
-            x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-            self.x = x
-            self.y = y
+
+        if destination != None and board[start_r][start_c].color == destination.color:
+            print('cannot move to the spot')
+
+        if destination == None:
+            self.replace_piece(board, x, y)
             print('moved')
             return True
-        else:
-            if (peice := board[start_r][start_c]).color == destination.color:
-                print('cannot move to the spot')
-            elif peice.color != destination.color:
-                board[end_r][end_c] = board[start_r][start_c]
-                board[start_r][start_c] = None
-                x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-                self.x = x
-                self.y = y
-                print('rival piece destroyed')
+
+        if destination != None and board[start_r][start_c].color != destination.color:
+            self.replace_piece(board, x, y)
+            print('rival piece destroyed')
 
 
 
@@ -500,35 +508,38 @@ class Knight(Piece):
     def __init__(self, color, x, y):
         super().__init__("N", color, x, y)
 
-
-    def move(self, x, y, board):
-
+    def replace_piece(self, board, x, y):
         start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
         end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
+        board[end_r][end_c] = board[start_r][start_c]
+        board[start_r][start_c] = None
+        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+        self.x = x
+        self.y = y
+
+    def move(self, x, y, board):
+        start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
+        end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
+        destination = board[end_r][end_c]
 
         legal_spots = [(1, 2), (1, -2), (-1, 2), (-1, -2)]
+
         if (x - self.x, y - self.y) not in legal_spots:
             print('cannot move to the spot')
             return
+            
+        if destination != None and board[start_r][start_c].color == destination.color:
+            print('cannot move to the spot')
+            return
 
-        if (destination := board[end_r][end_c]) is None:
-            board[end_r][end_c] = board[start_r][start_c]
-            board[start_r][start_c] = None
-            x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-            self.x = x
-            self.y = y
+        if destination == None:
+            self.replace_piece(board, x, y)
             print('moved')
             return True
-        else:
-            if (peice := board[start_r][start_c]).color == destination.color:
-                print('cannot move to the spot')
-            elif peice.color != destination.color:
-                board[end_r][end_c] = board[start_r][start_c]
-                board[start_r][start_c] = None
-                x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-                self.x = x
-                self.y = y
-                print('rival piece destroyed')
+
+        if destination != None and board[start_r][start_c].color != destination.color:
+            self.replace_piece(board, x, y)
+            print('rival piece destroyed')
 
 
 
@@ -817,8 +828,12 @@ class Chess:
 
 
     def print_board(self):
+        # board = [ 
+        #     '|'.join([   "  " if piece is  None else  str(piece) if piece is not self.selected_piece else "\033[0;31m" + str(piece) + "\033[0m" for piece in row ])
+        #     for row in self.board
+        # ]
         board = [ 
-            '|'.join([   "  " if piece is  None else  str(piece) if piece is not self.selected_piece else "\033[0;31m" + str(piece) + "\033[0m" for piece in row ])
+            '|'.join([   "  " if piece is  None else  str(piece) if piece is not self.selected_piece else str(piece) for piece in row ])
             for row in self.board
         ]
         print(*board, sep="|\n", end="|\n")
