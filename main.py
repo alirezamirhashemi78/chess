@@ -344,49 +344,140 @@ class Bishop(Piece):
 class Queen(Piece):
     def __init__(self, color, x, y):
         super().__init__("Q", color, x, y)
+        
+    def replace_piece(self, board, x, y):
+        start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
+        end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
+        board[end_r][end_c] = board[start_r][start_c]
+        board[start_r][start_c] = None
+        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
+        self.x = x
+        self.y = y
+
+    # def move(self, x, y, board):
+    #     start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
+    #     end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
+    #     x_range = x - self.x
+    #     y_range = y - self.y
+    #     # move_range = abs(x_range)
+    #     move_range = start_r - end_r
+    #     destination = board[end_r][end_c]
+
+    #     if destination != None and board[start_r][start_c].color == destination.color:
+    #         print('cannot move to the spot')
+    #         return
+
+    #     if x == self.x and y == self.y:
+    #         print('cannot move to the spot')
+    #         return
+        
+    #     elif self.x == x:
+    #         # move_range = start_r - end_r
+    #         if move_range > 0:
+    #             spots = [board[start_r - i][start_c] for i in range(1, move_range)]
+    #         else:
+    #             move_range = abs(move_range)
+    #             spots = [board[start_r + i][start_c] for i in range(1, move_range)]
+    #         can_move = not any(spots)
+
+    #         if can_move:
+    #             if destination == None:
+    #                 self.replace_piece(board, x, y)
+    #                 print('moved')
+    #                 return True
+    #             else:
+    #                 if board[start_r][start_c].color == destination.color:
+    #                     print('cannot move to the spot')
+    #                     return
+    #                 elif board[start_r][start_c].color.color != destination.color:
+    #                     self.replace_piece(board, x, y)
+    #                     print('rival piece destroyed')
+    #                     return
+    #         else:
+    #             print('cannot move to the spot')
+    #             return
+                
+    #     elif self.y == y:
+    #         move_range = start_c - end_c
+    #         if move_range > 0:
+    #             spots = [board[start_r][start_c - i] for i in range(1, move_range)]
+    #         else:
+    #             move_range = abs(move_range)
+    #             spots = [board[start_r][start_c + i] for i in range(1, move_range)]
+    #         can_move = not any(spots)
+    #         # if can_move:
+    #         if (destination := board[end_r][end_c]) is None:
+    #             self.replace_piece(board, x, y)
+    #             print('moved')
+    #             return True
+    #         else:
+    #             if (peice := board[start_r][start_c]).color == destination.color:
+    #                 print('cannot move to the spot')
+    #                 return
+    #             elif peice.color != destination.color:
+    #                 self.replace_piece(board, x, y)
+    #                 print('rival piece destroyed')
+    #                 return
+    #         # else:
+    #         #     print('cannot move to the spot')
+    #             return
+    #     elif abs(x_range) != abs(y_range):
+    #         print('cannot move to the spot')
+    #         return
+        
+    #     #set spots for path and check if path is empthy to move 
+    #     # bala rast
+    #     elif 0 < x_range and 0 < y_range:
+    #         spots = [board[start_r - i][start_c + i] for i in range(1, move_range)]
+    #     # bala chap
+    #     elif x_range < 0 < y_range:
+    #         spots = [board[start_r - i][start_c - i] for i in range(1, move_range)]
+    #     # pain rast
+    #     elif y_range < 0 < x_range:
+    #         spots = [board[start_r + i][start_c + i] for i in range(1, move_range)]
+    #     # pain chap
+    #     elif x_range < 0 and y_range < 0:
+    #         spots = [board[start_r + i][start_c - i] for i in range(1, move_range)]
+    #     else:
+    #         print('cannot move to the spot')
+    #         return
+    #     can_move = not any(spots)
+
+    #     if can_move:
+    #         if destination == None:
+    #             self.replace_piece(board, x, y)
+    #             print('moved')
+    #             return True
+
+    #         if destination != None and board[start_r][start_c].color != destination.color:
+    #             self.replace_piece(board, x, y)
+    #             print('rival piece destroyed')
+    #     else:
+    #         print('cannot move to the spot')
 
     def move(self, x, y, board):
         start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
         end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
         x_range = x - self.x
         y_range = y - self.y
-        move_range = abs(x_range)
+        destination = board[end_r][end_c]
+        move_range = start_r - end_r
+
+        if destination != None and board[start_r][start_c].color == destination.color:
+            print('cannot move to the spot')
+            return
 
         if x == self.x and y == self.y:
             print('cannot move to the spot')
             return
-        elif self.x == x:
-            move_range = start_r - end_r
+        
+        if self.x == x:
             if move_range > 0:
                 spots = [board[start_r - i][start_c] for i in range(1, move_range)]
             else:
                 move_range = abs(move_range)
                 spots = [board[start_r + i][start_c] for i in range(1, move_range)]
-            can_move = not any(spots)
-            # if can_move:
-            if (destination := board[end_r][end_c]) is None:
-                board[end_r][end_c] = board[start_r][start_c]
-                board[start_r][start_c] = None
-                x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-                self.x = x
-                self.y = y
-                print('moved')
-                return True
-            else:
-                if (peice := board[start_r][start_c]).color == destination.color:
-                    print('cannot move to the spot')
-                    return
-                elif peice.color != destination.color:
-                    board[end_r][end_c] = board[start_r][start_c]
-                    board[start_r][start_c] = None
-                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-                    self.x = x
-                    self.y = y
-                    print('rival piece destroyed')
-                    return
-            # else:
-            #     print('cannot move to the spot')
-                return
+                
         elif self.y == y:
             move_range = start_c - end_c
             if move_range > 0:
@@ -394,36 +485,14 @@ class Queen(Piece):
             else:
                 move_range = abs(move_range)
                 spots = [board[start_r][start_c + i] for i in range(1, move_range)]
-            can_move = not any(spots)
-            # if can_move:
-            if (destination := board[end_r][end_c]) is None:
-                board[end_r][end_c] = board[start_r][start_c]
-                board[start_r][start_c] = None
-                x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-                self.x = x
-                self.y = y
-                print('moved')
-                return True
-            else:
-                if (peice := board[start_r][start_c]).color == destination.color:
-                    print('cannot move to the spot')
-                    return
-                elif peice.color != destination.color:
-                    board[end_r][end_c] = board[start_r][start_c]
-                    board[start_r][start_c] = None
-                    x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-                    self.x = x
-                    self.y = y
-                    print('rival piece destroyed')
-                    return
-            # else:
-            #     print('cannot move to the spot')
-                return
+        
         elif abs(x_range) != abs(y_range):
-            print('cannot move to the spot')
+            print('cannot move to the spot 111')
             return
+        
+        #set spots for path and check if path is empthy to move 
         # bala rast
-        elif 0 < x_range and 0 < y_range:
+        if 0 < x_range and 0 < y_range:
             spots = [board[start_r - i][start_c + i] for i in range(1, move_range)]
         # bala chap
         elif x_range < 0 < y_range:
@@ -434,31 +503,28 @@ class Queen(Piece):
         # pain chap
         elif x_range < 0 and y_range < 0:
             spots = [board[start_r + i][start_c - i] for i in range(1, move_range)]
-        else:
+
+        is_path_empty = not any(spots)
+
+
+        if not is_path_empty:
             print('cannot move to the spot')
             return
-        can_move = not any(spots)
-        # if can_move:
-        if (destination := board[end_r][end_c]) is None:
-            board[end_r][end_c] = board[start_r][start_c]
-            board[start_r][start_c] = None
-            x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-            self.x = x
-            self.y = y
+
+
+
+        if destination == None:
+            self.replace_piece(board, x, y)
             print('moved')
             return True
-        else:
-            if (peice := board[start_r][start_c]).color == destination.color:
-                print('cannot move to the spot')
-            elif peice.color != destination.color:
-                board[end_r][end_c] = board[start_r][start_c]
-                board[start_r][start_c] = None
-                x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-                self.x = x
-                self.y = y
-                print('rival piece destroyed')
-        # else:
-        #     print('cannot move to the spot')
+
+        elif destination != None and board[start_r][start_c].color == destination.color:
+            print('cannot move to the spot')
+            return
+        elif destination != None and board[start_r][start_c].color != destination.color:
+            self.replace_piece(board, x, y)
+            print('rival piece destroyed')
+            return True
 
 
 class King(Piece):

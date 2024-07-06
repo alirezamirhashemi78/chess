@@ -17,5 +17,16 @@ next_turn
 select 3,5
 move 3,6
 next_turn
+select 5,7
+move 5,5
+next_turn
+select 4,1
+move 2,3
+next_turn
+select 4,8
+move 6,6
+next_turn
+select 2,3
+move 2,7
 
 exit
