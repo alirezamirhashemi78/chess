@@ -211,14 +211,6 @@ class Rook(Piece):
         super().__init__("R", color, x, y)
 
 
-    def change_position(self, board, start_r, start_c, end_r, end_c):
-        board[end_r][end_c] = board[start_r][start_c]
-        board[start_r][start_c] = None
-        x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
-        self.x = x
-        self.y = y
-
-
     def replace_piece(self, board, x, y):
         start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
         end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
