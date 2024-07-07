@@ -48,9 +48,11 @@ class Pawn(Piece):
         super().__init__("P", color, x, y)
 
 
-    def change_position(self, board, start_r, start_c, end_r, end_c):      
+    def replace_piece(self, board, x, y):
         if board[end_r][end_c] != None: 
             chess.destroyed_piece.append(board[end_r][end_c])
+        start_r, start_c = CoordinateUtility.cartesian_to_index(self.x, self.y)
+        end_r, end_c = CoordinateUtility.cartesian_to_index(x, y)
         board[end_r][end_c] = board[start_r][start_c]
         board[start_r][start_c] = None
         x, y = CoordinateUtility.index_to_cartesian(end_r, end_c)
@@ -135,7 +137,7 @@ class Pawn(Piece):
                     return
 
 
-        if pawn.color == "b":
+        elif pawn.color == "b":
             # checks pawn going forward
             if y >= self.y:
                 print("cannot move to the spot")
@@ -162,18 +164,18 @@ class Pawn(Piece):
                         print("cannot move to the spot")
                         return
                     elif self.y - y <= 2:
-                        self.change_position(board, start_r, start_c, end_r, end_c)
+                        self.replace_piece(board, x, y)
                         print('moved')
                         return True
                     else:
                         print("cannot move to the spot")
                         return
                 elif can_destroy_right and x - self.x == 1:
-                    self.change_position(board, start_r, start_c, end_r, end_c)
+                    self.replace_piece(board, x, y)
                     print('rival piece destroyed')
                     return
                 elif can_destroy_left and x - self.x == -1:
-                    self.change_position(board, start_r, start_c, end_r, end_c)
+                    self.replace_piece(board, x, y)
                     print('rival piece destroyed')
                     return
                 else:
@@ -186,18 +188,18 @@ class Pawn(Piece):
                         print("cannot move to the spot")
                         return
                     elif self.y - y == 1:
-                        self.change_position(board, start_r, start_c, end_r, end_c)
+                        self.replace_piece(board, x, y)
                         print('moved')
                         return True
                     else:
                         print("cannot move to the spot")
                         return
                 elif can_destroy_right and x - self.x == 1:
-                    self.change_position(board, start_r, start_c, end_r, end_c)
+                    self.replace_piece(board, x, y)
                     print('rival piece destroyed')
                     return
                 elif can_destroy_left and x - self.x == -1:
-                    self.change_position(board, start_r, start_c, end_r, end_c)
+                    self.replace_piece(board, x, y)
                     print('rival piece destroyed')
                     return
                 else:
@@ -333,8 +335,6 @@ class Bishop(Piece):
             return True
 
             
-
-
 
 class Queen(Piece):
     def __init__(self, color, x, y):
