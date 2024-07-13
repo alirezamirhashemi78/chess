@@ -4,6 +4,7 @@ import re
 import sys
 import random
 import time
+from turtle import right
 
 random.seed(time.time())
 
@@ -869,7 +870,7 @@ class Chess:
 
         elif chess.is_piece_selectable(chess, piece):
             chess.selected_piece = piece
-            chess.last_piece_coordination = [8-y, x-1]
+            chess.last_piece_coordination = [y, x]
             print("selected")
 
         return
@@ -975,19 +976,19 @@ while True:
         if user_inp[0] == "new_game":
             chess.start_new_game(user_inp[1], user_inp[2])
         
-        if user_inp[0] == "scoreboard":
+        elif user_inp[0] == "scoreboard":
             chess.print_scoreboard()
         
-        if user_inp[0] == "logout":
+        elif user_inp[0] == "logout":
             User.logout(chess)
 
         # game menu
-        if user_inp[0] == "select":
+        elif user_inp[0] == "select":
             x, y = user_inp[1].split(",")
             chess.select_piece(chess, x=int(x), y=int(y))
         
 
-        if user_inp[0] == "move":
+        elif user_inp[0] == "move":
             if chess.moved:
                 print("already moved")
             else:
@@ -1011,12 +1012,12 @@ while True:
                         chess.all_moves.append([chess.selected_piece, (last_y, last_x), (moved_y, moved_x), chess.last_destroyed_piece])
 
                         chess.moved = True
-                        chess.moved_piece_coordination = [8 - y, x - 1]
+                        chess.moved_piece_coordination = [y, x]
 
             chess.print_board()
 
 
-        if user_inp[0] == "deselect":
+        elif user_inp[0] == "deselect":
             if len(user_inp) == 1:
                 chess.deselect()
             else:
@@ -1025,33 +1026,34 @@ while True:
 
 
 
-        if user_inp[0] == "forfeit":
+        elif user_inp[0] == "forfeit":
             if len(user_inp) == 1:
                 User.forfeit(chess)
             else:
                 print("invalid command")
 
 
-        if user_inp[0] == "show_board":
+        elif user_inp[0] == "show_board":
             if len(user_inp) == 1:
                 chess.print_board()
             else:
                 print("invalid command")
                 
 
-        if user_inp[0] == "next_turn": 
+        elif user_inp[0] == "next_turn": 
             if len(user_inp) == 1:
                 if not chess.moved:
                     print("you must move then proceed to next turn")
                 else:
                     chess.white_turn = not chess.white_turn
                     chess.moved = False
+                    chess.did_undo = False
                     print("turn completed")
             else:
                 print("invalid command")
 
 
-        if user_inp[0] == "show_turn":
+        elif user_inp[0] == "show_turn":
             if len(user_inp) == 1:
                 active_user = chess.white_user if chess.white_turn else chess.black_user
                 user_color = "white" if chess.white_turn else "black" 
@@ -1062,7 +1064,7 @@ while True:
                 print("invalid command")
 
 
-        if user_inp[0] == "undo":
+        elif user_inp[0] == "undo":
             if len(user_inp) == 1:
                 active_user = chess.white_user if chess.white_turn else chess.black_user
                 if active_user.undo_limit == 0:
@@ -1077,16 +1079,18 @@ while True:
                             chess.did_undo = True
                             active_user.undo_limit -= 1
 
-                            last_row = chess.last_piece_coordination[0]
-                            last_col = chess.last_piece_coordination[1]
-
-                            moved_row = chess.moved_piece_coordination[0]
-                            moved_col = chess.moved_piece_coordination[1]
-
+                            last_row, last_col = chess.last_piece_coordination[1], chess.last_piece_coordination[0]
+                            
+                            moved_row, moved_col = CoordinateUtility.cartesian_to_index(chess.moved_piece_coordination[1], chess.moved_piece_coordination[0])
+                            
+                            
                             piece = chess.board[moved_row][moved_col]
+      
                             x, y = CoordinateUtility.index_to_cartesian(last_row, last_col)
+
                             piece.x = x
                             piece.y = y
+
 
                             chess.board[last_row][last_col] = piece
                             chess.board[moved_row][moved_col] = chess.last_destroyed_piece
@@ -1097,6 +1101,14 @@ while True:
                             print("undo completed")
             else:
                 print("invalid command")
+
+            chess.print_board()
+        
+        elif user_inp[0] == "undo_number":
+            if len(user_inp) == 1:
+                active_user = chess.white_user if chess.white_turn else chess.black_user
+                message = f"you have {active_user.undo_limit} undo moves"
+                print(message)
 
         
 
