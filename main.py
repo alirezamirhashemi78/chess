@@ -543,7 +543,7 @@ class User:
     def list_users():
         sorted_users = sorted(User.users, key=lambda x:x.username.lower())
         for user in sorted_users:
-            print(f"{user.username} {user.password}")
+            print(f"{user.username}")
             
 
     @staticmethod
@@ -1109,9 +1109,7 @@ while True:
                 active_user = chess.white_user if chess.white_turn else chess.black_user
                 message = f"you have {active_user.undo_limit} undo moves"
                 print(message)
-
         
-
-
-
-
+        elif user_inp[0] == "show_moves":
+            if len(user_inp) == 1:
+                print(chess.all_moves)
