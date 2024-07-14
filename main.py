@@ -105,6 +105,7 @@ class Pawn(Piece):
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
                     return
+
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
@@ -831,7 +832,9 @@ class Chess:
             print(message)
 
 
-    def print_scoreboard(self):
+    def print_scoreboard(self, chess):
+        active_user = chess.white_user if chess.white_turn else chess.black_user
+        user_color = "white" if chess.white_turn else "black" 
         message = f"[username] [score] [wins] [draws] [loses]"
         print(message)
         pass
@@ -986,7 +989,7 @@ while True:
             chess.start_new_game(user_inp[1], user_inp[2])
         
         elif user_inp[0] == "scoreboard":
-            chess.print_scoreboard()
+            chess.print_scoreboard(chess=chess)
         
         elif user_inp[0] == "logout":
             User.logout(chess)
@@ -994,7 +997,7 @@ while True:
         # game menu
         elif user_inp[0] == "select":
             x, y = user_inp[1].split(",")
-            chess.select_piece(chess, x=int(x), y=int(y))
+            chess.select_piece(chess, y=int(x), x=int(y))
         
 
         elif user_inp[0] == "move":
@@ -1011,17 +1014,19 @@ while True:
                 else:
                     x, y = user_inp[1].split(",")
                     x, y = int(x), int(y)
-                    print("X: ", x, y)
                     chess.last_destroyed_piece = chess.board[8 - y][x - 1]
-                    move = chess.selected_piece.move(int(x), int(y), chess.board)
+                    move = chess.selected_piece.move(y=int(x), x=int(y), board=chess.board)
+                    chess.moved = True
                     if move:
                         moved_x, moved_y = CoordinateUtility.index_to_cartesian(8 - y, x - 1)
                         last_x, last_y = CoordinateUtility.index_to_cartesian(chess.last_piece_coordination[0],chess.last_piece_coordination[1])
                         
                         chess.all_moves.append([chess.selected_piece, (last_y, last_x), (moved_y, moved_x), chess.last_destroyed_piece])
 
-                        chess.moved = True
-                        chess.moved_piece_coordination = [y, x]
+                        # print("man injam")
+                        # chess.moved = True
+                        # print("HALA INJAM")
+                        chess.moved_piece_coordination = [x, y]
 
             chess.print_board()
 
