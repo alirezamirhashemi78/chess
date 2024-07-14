@@ -658,6 +658,7 @@ class User:
 
 
 class Chess:
+    cnt = 1
     white_user: User = None
     black_user: User = None
     white_turn: bool = True
@@ -772,8 +773,8 @@ class Chess:
                     
 
     def print_commands(commands):
-        for i, command in enumerate(commands.strip().split("\n")):
-            print(f"{i+1}. {command.strip()}")
+        for command in commands.strip().split("\n"):
+            print(command.strip())
 
 
     @staticmethod
@@ -798,28 +799,36 @@ class Chess:
         print(*board, sep="|\n", end="|\n")
 
         
-    def check_game_limit(self, limit: int):
-        if limit < 0:
-            print("number should be positive to have a limit or 0 for no limit")
+    # def check_game_limit(self, limit: int):
+    #     if limit < 0:
+    #         print("number should be positive to have a limit or 0 for no limit")
+    #         return False
 
 
     def start_new_game(self, username, limit):
+        self.cnt += 1
         if User.check_validations(username) == False:
             return
-        self.check_game_limit(int(limit))
+
+        if int(limit) < 0:
+            print("number should be positive to have a limit or 0 for no limit")
+            return False
 
         if username == self.white_user.username:
             message = "you must choose another player to start a game"
+            print(message)
+            return False
 
         if User.is_username_exist(username):
             self.black_user = User.users[User.users.index(username)]
             self.limit = limit
             message = f"new game started successfully between {self.white_user.username} and {self.black_user.username} with limit {self.limit}"
+            print(message)
+            return
 
         else:
             message = "no user exists with this username"
-        
-        print(message)
+            print(message)
 
 
     def print_scoreboard(self):
