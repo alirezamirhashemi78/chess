@@ -2,35 +2,42 @@ register alimir 2343
 register malekz 3454
 login malekz 3454
 new_game alimir 12
-select 3,2
-move 3,4
+select 2,3
+move 4,3
 next_turn
 select 7,7
-move 7,6
+move 6,7
 next_turn
-select 3,4
-move 3,5
+select 4,3
+move 5,3
 next_turn
-select 7,6
-move 7,5
+select 6,7
+move 5,7
 next_turn
-select 3,5
-move 3,6
+select 5,3
+move 6,5
 next_turn
-select 5,7
+select 7,5
 move 5,5
 next_turn
-select 4,1
-move 2,3
+select 1,4
+move 3,2
 next_turn
-select 4,8
+select 8,4
 move 6,6
 next_turn
-select 2,3
-move 2,7
+select 3,2
+move 7,2
 next_turn
-select 8,7
-move 8,5
+select 7,8
+move 5,8
+next_turn
+select 2,4
+move 4,4
+next_turn
+select 5,8
+move 4,8
 
+undo
 
 exit

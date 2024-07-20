@@ -72,10 +72,10 @@ class Pawn(Piece):
         if pawn.color == "w":
             # checks pawn going forward
             if y <= self.y:
-                print("cannot move to the spot")
+                print("cannot move to the spot 1")
                 return
             if not -1 <= x - self.x <= 1:
-                print("cannot move to the spot")
+                print("cannot move to the spot 2")
                 return
             # checks if white pawn can destroy right
             if self.x < 8:
@@ -92,14 +92,14 @@ class Pawn(Piece):
             if self.y == 2:
                 if x == self.x:
                     if board[end_r][end_c] is not None:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 3")
                         return
                     elif y - self.y <= 2:
                         self.replace_piece(board, x, y)
                         print('moved')
                         return True
                     else:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 4")
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
@@ -111,20 +111,20 @@ class Pawn(Piece):
                     print('rival piece destroyed')
                     return
                 else:
-                    print("cannot move to the spot")
+                    print("cannot move to the spot 5")
                     return
             # if pawn moved
             else:
                 if x == self.x:
                     if board[end_r][end_c] is not None:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 6")
                         return
                     elif y - self.y == 1:
                         self.replace_piece(board, x, y)
                         print('moved')
                         return True
                     else:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 7")
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
@@ -135,17 +135,18 @@ class Pawn(Piece):
                     print('rival piece destroyed')
                     return
                 else:
-                    print("cannot move to the spot")
+                    print("cannot move to the spot 8")
                     return
 
 
         elif pawn.color == "b":
             # checks pawn going forward
             if y >= self.y:
-                print("cannot move to the spot")
+                print("cannot move to the spot 9")
                 return
             if not -1 <= x - self.x <= 1:
-                print("cannot move to the spot")
+                print(x, self.x)
+                print("cannot move to the spot 10")
                 return
             # checks if white pawn can destroy right
             if self.x < 8:
@@ -163,14 +164,14 @@ class Pawn(Piece):
             if self.y == 7:
                 if x == self.x:
                     if board[end_r][end_c] is not None:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 11")
                         return
                     elif self.y - y <= 2:
                         self.replace_piece(board, x, y)
                         print('moved')
                         return True
                     else:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 12")
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
@@ -181,20 +182,20 @@ class Pawn(Piece):
                     print('rival piece destroyed')
                     return
                 else:
-                    print("cannot move to the spot")
+                    print("cannot move to the spot 13")
                     return
             # if pawn moved
             else:
                 if x == self.x:
                     if board[end_r][end_c] is not None:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 14")
                         return
                     elif self.y - y == 1:
                         self.replace_piece(board, x, y)
                         print('moved')
                         return True
                     else:
-                        print("cannot move to the spot")
+                        print("cannot move to the spot 15")
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
@@ -205,7 +206,7 @@ class Pawn(Piece):
                     print('rival piece destroyed')
                     return
                 else:
-                    print("cannot move to the spot")
+                    print("cannot move to the spot 16")
                     return
 
 
@@ -231,7 +232,7 @@ class Rook(Piece):
         destination = board[end_r][end_c]
 
         if self.x == x and self.y == y:
-            print("cannot move to the spot")
+            print("cannot move to the spot 17")
 
         elif self.x == x:
             move_range = start_r - end_r
@@ -250,12 +251,12 @@ class Rook(Piece):
                 spots = [board[start_r][start_c + i] for i in range(1, move_range)]
 
         else:
-            print("cannot move to the spot")
+            print("cannot move to the spot 18")
 
 
         is_path_empty = not any(spots)
         if not is_path_empty:
-            print('cannot move to the spot')
+            print('cannot move to the spot 19')
             return
 
         if destination == None:
@@ -264,7 +265,7 @@ class Rook(Piece):
             return True
 
         if destination != None and board[start_r][start_c].color == destination.color:
-            print('cannot move to the spot')
+            print('cannot move to the spot 20')
             
         elif destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
@@ -297,10 +298,10 @@ class Bishop(Piece):
         move_range = abs(x_range)
 
         if x == self.x or y == self.y:
-            print('cannot move to the spot')
+            print('cannot move to the spot 21')
             return
         elif abs(x_range) != abs(y_range):
-            print('cannot move to the spot')
+            print('cannot move to the spot 22')
             return
 
         # bala rast
@@ -316,12 +317,12 @@ class Bishop(Piece):
         elif x_range < 0 and y_range < 0:
             spots = [board[start_r + i][start_c - i] for i in range(1, move_range)]
         else:
-            print('cannot move to the spot')
+            print('cannot move to the spot 23')
             return
 
         is_path_empty = not any(spots)
         if not is_path_empty:
-            print('cannot move to the spot')
+            print('cannot move to the spot 24')
             return
     
         if destination == None:
@@ -330,7 +331,7 @@ class Bishop(Piece):
             return True
 
         elif destination != None and board[start_r][start_c].color == destination.color:
-            print('cannot move to the spot')
+            print('cannot move to the spot 25')
         elif destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
             print('rival piece destroyed')
@@ -361,11 +362,11 @@ class Queen(Piece):
         move_range = start_r - end_r
 
         if destination != None and board[start_r][start_c].color == destination.color:
-            print('cannot move to the spot')
+            print('cannot move to the spot 26')
             return
 
         if x == self.x and y == self.y:
-            print('cannot move to the spot')
+            print('cannot move to the spot 27')
             return
         
         if self.x == x:
@@ -384,7 +385,7 @@ class Queen(Piece):
                 spots = [board[start_r][start_c + i] for i in range(1, move_range)]
         
         elif abs(x_range) != abs(y_range):
-            print('cannot move to the spot 111')
+            print('cannot move to the spot 28')
             return
         
         #set spots for path and check if path is empthy to move 
@@ -405,7 +406,7 @@ class Queen(Piece):
 
 
         if not is_path_empty:
-            print('cannot move to the spot')
+            print('cannot move to the spot 29')
             return
 
         if destination == None:
@@ -414,7 +415,7 @@ class Queen(Piece):
             return True
 
         elif destination != None and board[start_r][start_c].color == destination.color:
-            print('cannot move to the spot')
+            print('cannot move to the spot 30')
             return
         elif destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
@@ -443,15 +444,15 @@ class King(Piece):
         destination = board[end_r][end_c]
 
         if x == self.x and y == self.y:
-            print('cannot move to the spot')
+            print('cannot move to the spot 31')
             return
 
         if 1 < abs(x-self.x) or 1 < abs(y-self.y):
-            print('cannot move to the spot')
+            print('cannot move to the spot 32')
             return
 
         if destination != None and board[start_r][start_c].color == destination.color:
-            print('cannot move to the spot')
+            print('cannot move to the spot 33')
 
         if destination == None:
             self.replace_piece(board, x, y)
@@ -486,11 +487,11 @@ class Knight(Piece):
         legal_spots = [(1, 2), (1, -2), (-1, 2), (-1, -2)]
 
         if (x - self.x, y - self.y) not in legal_spots:
-            print('cannot move to the spot')
+            print('cannot move to the spot 34')
             return
             
         if destination != None and board[start_r][start_c].color == destination.color:
-            print('cannot move to the spot')
+            print('cannot move to the spot 35')
             return
 
         if destination == None:
@@ -834,7 +835,6 @@ class Chess:
 
     def print_scoreboard(self, chess):
         active_user = chess.white_user if chess.white_turn else chess.black_user
-        user_color = "white" if chess.white_turn else "black" 
         message = f"[username] [score] [wins] [draws] [loses]"
         print(message)
         pass
@@ -1014,7 +1014,11 @@ while True:
                 else:
                     x, y = user_inp[1].split(",")
                     x, y = int(x), int(y)
-                    chess.last_destroyed_piece = chess.board[8 - y][x - 1]
+                    
+                    #TODO: x, y?? (maybe have to use Coordi....)
+                    chess.last_destroyed_piece = chess.board[x-1][8-y]
+
+                    print("man injammmm: ", chess.last_destroyed_piece )
                     move = chess.selected_piece.move(y=int(x), x=int(y), board=chess.board)
                     chess.moved = True
                     if move:
@@ -1022,11 +1026,8 @@ while True:
                         last_x, last_y = CoordinateUtility.index_to_cartesian(chess.last_piece_coordination[0],chess.last_piece_coordination[1])
                         
                         chess.all_moves.append([chess.selected_piece, (last_y, last_x), (moved_y, moved_x), chess.last_destroyed_piece])
-
-                        # print("man injam")
-                        # chess.moved = True
-                        # print("HALA INJAM")
-                        chess.moved_piece_coordination = [x, y]
+                        
+                        chess.moved_piece_coordination = [y, x]
 
             chess.print_board()
 
@@ -1070,8 +1071,8 @@ while True:
         elif user_inp[0] == "show_turn":
             if len(user_inp) == 1:
                 active_user = chess.white_user if chess.white_turn else chess.black_user
-                user_color = "white" if chess.white_turn else "black" 
-                message = f"it is player {active_user.username} turn with color {user_color}" 
+                active_user_color = "white" if chess.white_turn else "black" 
+                message = f"it is player {active_user.username} turn with color {active_user_color}" 
                 print(message)
                 pass
             else:
@@ -1095,20 +1096,27 @@ while True:
 
                             last_row, last_col = chess.last_piece_coordination[1], chess.last_piece_coordination[0]
                             
-                            moved_row, moved_col = CoordinateUtility.cartesian_to_index(chess.moved_piece_coordination[1], chess.moved_piece_coordination[0])
+                            moved_row, moved_col = CoordinateUtility.cartesian_to_index(chess.moved_piece_coordination[0], chess.moved_piece_coordination[1])
                             
+
                             
                             piece = chess.board[moved_row][moved_col]
       
                             x, y = CoordinateUtility.index_to_cartesian(last_row, last_col)
+                            print("last_row, last_col ",last_row, last_col)
+                            print("moved_row, moved_col ", moved_row, moved_col )
+                            print("X, Y: ", piece.x, piece.y)
+                            piece.x = last_row
+                            piece.y = last_col
+
+                            print("PIECE : ", piece)
+                            print("LAST DESTROYED: ", chess.last_destroyed_piece)
+                            chess.board[last_row][last_col] = piece
+                            chess.board[moved_row][moved_col] = chess.last_destroyed_piece
 
                             piece.x = x
                             piece.y = y
-
-
-                            chess.board[last_row][last_col] = piece
-                            chess.board[moved_row][moved_col] = chess.last_destroyed_piece
-                            
+                            print(piece.x, piece.y)
                             chess.moved = False
                             chess.all_moves.pop()
 
@@ -1126,4 +1134,11 @@ while True:
         
         elif user_inp[0] == "show_moves":
             if len(user_inp) == 1:
-                print(chess.all_moves)
+                active_user = chess.white_user if chess.white_turn else chess.black_user
+                active_user_color = "w" if chess.white_turn else "b" 
+                for item in chess.all_moves:
+                    if item[0].color == active_user_color:
+                        if item[3] == None:
+                            print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]}")
+                        else:
+                            print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]} destroyed {item[3]}")
