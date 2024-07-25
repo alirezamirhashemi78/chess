@@ -1016,18 +1016,24 @@ while True:
                     x, y = int(x), int(y)
                     
                     #TODO: x, y?? (maybe have to use Coordi....)
-                    chess.last_destroyed_piece = chess.board[x-1][8-y]
-
+                    xx, yy = CoordinateUtility.cartesian_to_index(y,x)
+                    print(xx, yy)
+                    print("chess.board[xx]", chess.board[xx])
+                    chess.last_destroyed_piece = chess.board[xx][yy]
                     print("man injammmm: ", chess.last_destroyed_piece )
+                    
                     move = chess.selected_piece.move(y=int(x), x=int(y), board=chess.board)
+
                     chess.moved = True
                     if move:
-                        moved_x, moved_y = CoordinateUtility.index_to_cartesian(8 - y, x - 1)
+
                         last_x, last_y = CoordinateUtility.index_to_cartesian(chess.last_piece_coordination[0],chess.last_piece_coordination[1])
                         
+                        moved_x, moved_y = CoordinateUtility.index_to_cartesian(8 - y, x - 1)
                         chess.all_moves.append([chess.selected_piece, (last_y, last_x), (moved_y, moved_x), chess.last_destroyed_piece])
                         
-                        chess.moved_piece_coordination = [y, x]
+                    chess.moved_piece_coordination = [xx, yy]
+                    print("<move> coor: ", chess.moved_piece_coordination)
 
             chess.print_board()
 
@@ -1096,10 +1102,9 @@ while True:
 
                             last_row, last_col = chess.last_piece_coordination[1], chess.last_piece_coordination[0]
                             
-                            moved_row, moved_col = CoordinateUtility.cartesian_to_index(chess.moved_piece_coordination[0], chess.moved_piece_coordination[1])
+                            moved_row, moved_col = chess.moved_piece_coordination[0], chess.moved_piece_coordination[1]
                             
 
-                            
                             piece = chess.board[moved_row][moved_col]
       
                             x, y = CoordinateUtility.index_to_cartesian(last_row, last_col)
