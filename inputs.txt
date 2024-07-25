@@ -37,7 +37,9 @@ move 4,4
 next_turn
 select 5,8
 move 4,8
-
+next_turn
+select 4,4
+move 5,5
 undo
 
 exit

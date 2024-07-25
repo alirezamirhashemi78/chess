@@ -1141,10 +1141,23 @@ while True:
                             print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]}")
                         else:
                             print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]} destroyed {item[3]}")
-                            
+
             elif  user_inp[1] == "-all":
                 for item in chess.all_moves:
                     if item[3] == None:
                         print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]}")
                     else:
                         print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]} destroyed {item[3]}")
+        
+        elif user_inp[0] == "show_killed":
+            if len(user_inp) == 1:
+                active_user = chess.white_user if chess.white_turn else chess.black_user
+                active_user_color = "w" if chess.white_turn else "b" 
+                for item in chess.all_moves:
+                    if item[0].color == active_user_color:                    
+                        if item[3] != None:
+                            print(f"{item[3]} killed in spot {str(item[2])[1:-1]}")
+            elif  user_inp[1] == "-all":
+                for item in chess.all_moves:
+                    if item[3] != None:
+                        print(f"{item[3]} killed in spot {str(item[2])[1:-1]}")
