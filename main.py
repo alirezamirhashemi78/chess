@@ -104,12 +104,12 @@ class Pawn(Piece):
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
 
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
                 else:
                     print("cannot move to the spot 5")
                     return
@@ -129,11 +129,11 @@ class Pawn(Piece):
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
                 else:
                     print("cannot move to the spot 8")
                     return
@@ -176,11 +176,11 @@ class Pawn(Piece):
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
                 else:
                     print("cannot move to the spot 13")
                     return
@@ -200,11 +200,11 @@ class Pawn(Piece):
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
-                    return
+                    return True
                 else:
                     print("cannot move to the spot 16")
                     return
@@ -462,6 +462,7 @@ class King(Piece):
         if destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
             print('rival piece destroyed')
+            return True
 
 
 
@@ -1017,23 +1018,16 @@ while True:
                     
                     #TODO: x, y?? (maybe have to use Coordi....)
                     xx, yy = CoordinateUtility.cartesian_to_index(y,x)
-                    print(xx, yy)
-                    print("chess.board[xx]", chess.board[xx])
                     chess.last_destroyed_piece = chess.board[xx][yy]
-                    print("man injammmm: ", chess.last_destroyed_piece )
-                    
                     move = chess.selected_piece.move(y=int(x), x=int(y), board=chess.board)
-
                     chess.moved = True
-                    if move:
 
+                    if move:
                         last_x, last_y = CoordinateUtility.index_to_cartesian(chess.last_piece_coordination[0],chess.last_piece_coordination[1])
-                        
                         moved_x, moved_y = CoordinateUtility.index_to_cartesian(8 - y, x - 1)
                         chess.all_moves.append([chess.selected_piece, (last_y, last_x), (moved_y, moved_x), chess.last_destroyed_piece])
                         
-                    chess.moved_piece_coordination = [xx, yy]
-                    print("<move> coor: ", chess.moved_piece_coordination)
+                        chess.moved_piece_coordination = [xx, yy]
 
             chess.print_board()
 
