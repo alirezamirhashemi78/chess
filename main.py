@@ -1141,3 +1141,10 @@ while True:
                             print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]}")
                         else:
                             print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]} destroyed {item[3]}")
+                            
+            elif  user_inp[1] == "-all":
+                for item in chess.all_moves:
+                    if item[3] == None:
+                        print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]}")
+                    else:
+                        print(f"{item[0]} {str(item[1])[1:-1]} to {str(item[2])[1:-1]} destroyed {item[3]}")
