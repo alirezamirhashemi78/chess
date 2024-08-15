@@ -883,7 +883,7 @@ class Chess:
             self.black_user = User.users[User.users.index(username)]
             if int(limit) == 0:
                 self.limit = -1
-            message = f"new game started successfully between {self.white_user.username} and {self.black_user.username} with limit {self.limit}"
+            message = f"new game started successfully between {self.white_user.username} and {self.black_user.username} with limit {0 if self.limit == -1 else self.limit}"
             print(message)
             return
 
