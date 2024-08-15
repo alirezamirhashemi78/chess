@@ -865,7 +865,7 @@ class Chess:
     #         return False
 
 
-    def start_new_game(self, username, limit):
+    def start_new_game(self, chess, username, limit):
         self.cnt += 1
         if User.check_validations(username) == False:
             return
@@ -883,6 +883,7 @@ class Chess:
             self.black_user = User.users[User.users.index(username)]
             if int(limit) == 0:
                 self.limit = -1
+            chess.initialize()
             message = f"new game started successfully between {self.white_user.username} and {self.black_user.username} with limit {0 if self.limit == -1 else self.limit}"
             print(message)
             return
@@ -1045,7 +1046,7 @@ while True:
     elif isinstance(chess.white_user, User):
         # second layer menu
         if user_inp[0] == "new_game":
-            chess.start_new_game(user_inp[1], user_inp[2])
+            chess.start_new_game(chess, user_inp[1], user_inp[2])
         
         elif user_inp[0] == "scoreboard":
             chess.print_scoreboard(chess=chess)
