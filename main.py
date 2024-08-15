@@ -1119,11 +1119,14 @@ while True:
                 try:
                     if str(chess.last_destroyed_piece)[0] == "K":
                         active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
+                        deactive_user = User.users[User.users.index(chess.black_user if chess.white_turn else chess.white_user)]
+
                         active_user_color = "white" if chess.white_turn else "black" 
                         print(f"player {active_user.username} with color {active_user_color} won")
 
                         active_user.score += 3
                         active_user.wins += 1
+                        deactive_user.loses += 1
                         active_user = None
                 except:
                     print("not found")
