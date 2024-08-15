@@ -73,9 +73,11 @@ class Pawn(Piece):
             # checks pawn going forward
             if y <= self.y:
                 print("cannot move to the spot 1")
+                chess.moved = False
                 return
             if not -1 <= x - self.x <= 1:
                 print("cannot move to the spot 2")
+                chess.moved = False
                 return
             # checks if white pawn can destroy right
             if self.x < 8:
@@ -93,49 +95,61 @@ class Pawn(Piece):
                 if x == self.x:
                     if board[end_r][end_c] is not None:
                         print("cannot move to the spot 3")
+                        chess.moved = False
                         return
                     elif y - self.y <= 2:
                         self.replace_piece(board, x, y)
                         print('moved')
+                        chess.moved = True
                         return True
                     else:
                         print("cannot move to the spot 4")
+                        chess.moved = False
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
 
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
                 else:
                     print("cannot move to the spot 5")
+                    chess.moved = False
                     return
             # if pawn moved
             else:
                 if x == self.x:
                     if board[end_r][end_c] is not None:
                         print("cannot move to the spot 6")
+                        chess.moved = False
                         return
                     elif y - self.y == 1:
                         self.replace_piece(board, x, y)
                         print('moved')
+                        chess.moved = True
                         return True
                     else:
                         print("cannot move to the spot 7")
+                        chess.moved = False
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
                 else:
                     print("cannot move to the spot 8")
+                    chess.moved = False
                     return
 
 
@@ -143,10 +157,12 @@ class Pawn(Piece):
             # checks pawn going forward
             if y >= self.y:
                 print("cannot move to the spot 9")
+                chess.moved = False
                 return
             if not -1 <= x - self.x <= 1:
                 print(x, self.x)
                 print("cannot move to the spot 10")
+                chess.moved = False
                 return
             # checks if white pawn can destroy right
             if self.x < 8:
@@ -165,48 +181,60 @@ class Pawn(Piece):
                 if x == self.x:
                     if board[end_r][end_c] is not None:
                         print("cannot move to the spot 11")
+                        chess.moved = False
                         return
                     elif self.y - y <= 2:
                         self.replace_piece(board, x, y)
                         print('moved')
+                        chess.moved = True
                         return True
                     else:
                         print("cannot move to the spot 12")
+                        chess.moved = False
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
                 else:
                     print("cannot move to the spot 13")
+                    chess.moved = False
                     return
             # if pawn moved
             else:
                 if x == self.x:
                     if board[end_r][end_c] is not None:
                         print("cannot move to the spot 14")
+                        chess.moved = False
                         return
                     elif self.y - y == 1:
                         self.replace_piece(board, x, y)
                         print('moved')
+                        chess.moved = True
                         return True
                     else:
                         print("cannot move to the spot 15")
+                        chess.moved = False
                         return
                 elif can_destroy_right and x - self.x == 1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
                 elif can_destroy_left and x - self.x == -1:
                     self.replace_piece(board, x, y)
                     print('rival piece destroyed')
+                    chess.moved = True
                     return True
                 else:
                     print("cannot move to the spot 16")
+                    chess.moved = False
                     return
 
 
@@ -233,6 +261,7 @@ class Rook(Piece):
 
         if self.x == x and self.y == y:
             print("cannot move to the spot 17")
+            chess.moved = False
 
         elif self.x == x:
             move_range = start_r - end_r
@@ -252,24 +281,29 @@ class Rook(Piece):
 
         else:
             print("cannot move to the spot 18")
+            chess.moved = False
 
 
         is_path_empty = not any(spots)
         if not is_path_empty:
             print('cannot move to the spot 19')
+            chess.moved = False
             return
 
         if destination == None:
             self.replace_piece(board, x, y)
             print('moved')
+            chess.moved = True
             return True
 
         if destination != None and board[start_r][start_c].color == destination.color:
             print('cannot move to the spot 20')
+            chess.moved = False
             
         elif destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
             print('rival piece destroyed')
+            chess.moved = True
             return True
 
 
@@ -299,9 +333,11 @@ class Bishop(Piece):
 
         if x == self.x or y == self.y:
             print('cannot move to the spot 21')
+            chess.moved = False
             return
         elif abs(x_range) != abs(y_range):
             print('cannot move to the spot 22')
+            chess.moved = False
             return
 
         # bala rast
@@ -318,23 +354,28 @@ class Bishop(Piece):
             spots = [board[start_r + i][start_c - i] for i in range(1, move_range)]
         else:
             print('cannot move to the spot 23')
+            chess.moved = False
             return
 
         is_path_empty = not any(spots)
         if not is_path_empty:
             print('cannot move to the spot 24')
+            chess.moved = False
             return
     
         if destination == None:
             self.replace_piece(board, x, y)
             print('moved')
+            chess.moved = True
             return True
 
         elif destination != None and board[start_r][start_c].color == destination.color:
             print('cannot move to the spot 25')
+            chess.moved = False
         elif destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
             print('rival piece destroyed')
+            chess.moved = True
             return True
 
             
@@ -363,10 +404,12 @@ class Queen(Piece):
 
         if destination != None and board[start_r][start_c].color == destination.color:
             print('cannot move to the spot 26')
+            chess.moved = False
             return
 
         if x == self.x and y == self.y:
             print('cannot move to the spot 27')
+            chess.moved = False
             return
         
         if self.x == x:
@@ -386,6 +429,7 @@ class Queen(Piece):
         
         elif abs(x_range) != abs(y_range):
             print('cannot move to the spot 28')
+            chess.moved = False
             return
         
         #set spots for path and check if path is empthy to move 
@@ -407,19 +451,23 @@ class Queen(Piece):
 
         if not is_path_empty:
             print('cannot move to the spot 29')
+            chess.moved = False
             return
 
         if destination == None:
             self.replace_piece(board, x, y)
             print('moved')
+            chess.moved = True
             return True
 
         elif destination != None and board[start_r][start_c].color == destination.color:
             print('cannot move to the spot 30')
+            chess.moved = False
             return
         elif destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
             print('rival piece destroyed')
+            chess.moved = True
             return True
 
 
@@ -445,23 +493,28 @@ class King(Piece):
 
         if x == self.x and y == self.y:
             print('cannot move to the spot 31')
+            chess.moved = False
             return
 
         if 1 < abs(x-self.x) or 1 < abs(y-self.y):
             print('cannot move to the spot 32')
+            chess.moved = False
             return
 
         if destination != None and board[start_r][start_c].color == destination.color:
             print('cannot move to the spot 33')
+            chess.moved = False
 
         if destination == None:
             self.replace_piece(board, x, y)
             print('moved')
+            chess.moved = True
             return True
 
         if destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
             print('rival piece destroyed')
+            chess.moved = True
             return True
 
 
@@ -489,20 +542,24 @@ class Knight(Piece):
 
         if (x - self.x, y - self.y) not in legal_spots:
             print('cannot move to the spot 34')
+            chess.moved = False
             return
             
         if destination != None and board[start_r][start_c].color == destination.color:
             print('cannot move to the spot 35')
+            chess.moved = False
             return
 
         if destination == None:
             self.replace_piece(board, x, y)
             print('moved')
+            chess.moved = True
             return True
 
         if destination != None and board[start_r][start_c].color != destination.color:
             self.replace_piece(board, x, y)
             print('rival piece destroyed')
+            chess.moved = True
 
 
 
@@ -523,11 +580,11 @@ class User:
     def __init__(self, username, password) -> None:
         self.username = username
         self.password = password
-        self.score = 0
-        self.wins = 0
-        self.draws = 0
-        self.loses = 0
-        undo_limit = 2
+        # self.score = 0
+        # self.wins = 0
+        # self.draws = 0
+        # self.loses = 0
+        # undo_limit = 2
 
 
     def __eq__(self, other: object) -> bool:
@@ -642,22 +699,22 @@ class User:
     def forfeit(chess: object):
         black_user = User.users[User.users.index(chess.black_user)]
         white_user = User.users[User.users.index(chess.white_user)]
+    
+        active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
+        deactive_user = User.users[User.users.index(chess.black_user if chess.white_turn else chess.white_user)]
+        deactive_user_color = "black" if chess.white_turn else "white"
 
-        if chess.white_turn:
-            black_user.score += 2
-            if white_user.score > 0:
-                white_user.score -= 1
-            print("you have forefit")
-            print(f"player {black_user.username} with color black won")
-            chess.black_user = None
-            return
-        white_user.score += 2
-        if black_user.score > 0:
-            black_user.score -= 1
-        print("you have forefit")
-        print(f"player {black_user.username} with color black won")
+        active_user.score -= 1
+        deactive_user.score += 2
 
+        active_user.loses += 1
+        deactive_user.wins += 1
+
+        print("you have forfeit")
+        print(f"player {deactive_user.username} with color {deactive_user_color} won")
+        deactive_user = None
         return
+
 
 
 class Chess:
@@ -824,7 +881,8 @@ class Chess:
 
         if User.is_username_exist(username):
             self.black_user = User.users[User.users.index(username)]
-            self.limit = limit
+            if int(limit) == 0:
+                self.limit = -1
             message = f"new game started successfully between {self.white_user.username} and {self.black_user.username} with limit {self.limit}"
             print(message)
             return
@@ -835,7 +893,8 @@ class Chess:
 
 
     def print_scoreboard(self, chess):
-        active_user = chess.white_user if chess.white_turn else chess.black_user
+        for user in User.users:
+            print(user.score)
         message = f"[username] [score] [wins] [draws] [loses]"
         print(message)
         pass
@@ -1020,7 +1079,6 @@ while True:
                     xx, yy = CoordinateUtility.cartesian_to_index(y,x)
                     chess.last_destroyed_piece = chess.board[xx][yy]
                     move = chess.selected_piece.move(y=int(x), x=int(y), board=chess.board)
-                    chess.moved = True
 
                     if move:
                         last_x, last_y = CoordinateUtility.index_to_cartesian(chess.last_piece_coordination[0],chess.last_piece_coordination[1])
@@ -1057,12 +1115,38 @@ while True:
 
         elif user_inp[0] == "next_turn": 
             if len(user_inp) == 1:
+                
+                print("ssalaaaaaaam man injam: ")
+                try:
+                    if str(chess.last_destroyed_piece)[0] == "K":
+                        active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
+                        active_user_color = "white" if chess.white_turn else "black" 
+                        print(f"player {active_user.username} with color {active_user_color} won")
+
+                        active_user.score += 3
+                        active_user.wins += 1
+                        active_user = None
+                except:
+                    print("not found")
+
+                if chess.limit == 0:
+                    print("draw")
+                    chess.white_user.score += 1
+                    chess.black_user.score += 1
+                    chess.white_user.draws += 1
+                    chess.black_user.draws += 1
+                    chess.white_user = None
+                else:
+                    chess.limit -= 1
+
+
                 if not chess.moved:
                     print("you must move then proceed to next turn")
                 else:
                     chess.white_turn = not chess.white_turn
                     chess.moved = False
                     chess.did_undo = False
+
                     print("turn completed")
             else:
                 print("invalid command")
@@ -1070,7 +1154,7 @@ while True:
 
         elif user_inp[0] == "show_turn":
             if len(user_inp) == 1:
-                active_user = chess.white_user if chess.white_turn else chess.black_user
+                active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
                 active_user_color = "white" if chess.white_turn else "black" 
                 message = f"it is player {active_user.username} turn with color {active_user_color}" 
                 print(message)
@@ -1081,7 +1165,7 @@ while True:
 
         elif user_inp[0] == "undo":
             if len(user_inp) == 1:
-                active_user = chess.white_user if chess.white_turn else chess.black_user
+                active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
                 if active_user.undo_limit == 0:
                     print("you cannot undo anymore")
                 else:
@@ -1091,6 +1175,7 @@ while True:
                         if chess.did_undo:
                             print("you have used your undo for this turn")
                         else:
+                            chess.limit += 1 if chess.limit != -1 else 0
                             chess.did_undo = True
                             active_user.undo_limit -= 1
 
@@ -1127,13 +1212,13 @@ while True:
         
         elif user_inp[0] == "undo_number":
             if len(user_inp) == 1:
-                active_user = chess.white_user if chess.white_turn else chess.black_user
+                active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
                 message = f"you have {active_user.undo_limit} undo moves"
                 print(message)
         
         elif user_inp[0] == "show_moves":
             if len(user_inp) == 1:
-                active_user = chess.white_user if chess.white_turn else chess.black_user
+                active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
                 active_user_color = "w" if chess.white_turn else "b" 
                 for item in chess.all_moves:
                     if item[0].color == active_user_color:
@@ -1151,7 +1236,7 @@ while True:
         
         elif user_inp[0] == "show_killed":
             if len(user_inp) == 1:
-                active_user = chess.white_user if chess.white_turn else chess.black_user
+                active_user = User.users[User.users.index(chess.white_user if chess.white_turn else chess.black_user)]
                 active_user_color = "w" if chess.white_turn else "b" 
                 for item in chess.all_moves:
                     if item[0].color == active_user_color:                    
