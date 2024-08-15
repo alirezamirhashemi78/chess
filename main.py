@@ -894,9 +894,8 @@ class Chess:
 
     def print_scoreboard(self, chess):
         for user in User.users:
-            print(user.score)
-        message = f"[username] [score] [wins] [draws] [loses]"
-        print(message)
+            message = f"{user.username} {user.score} {user.wins} {user.draws} {user.loses}"
+            print(message)
         pass
     
 
